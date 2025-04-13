@@ -1,3 +1,4 @@
+import React, {useState} from "react";
 const TourCard = ({ id, name, info, image, price, onRemove }) => {
     const [readMore, setReadMore] = useState(false);
     const safeInfo = info || "No information available";

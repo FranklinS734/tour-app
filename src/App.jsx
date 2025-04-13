@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Gallery from './components/gallery';
-import './styles/styles.css';
+import 'styles/styles.css';
 
 function App() {
   const [tours, setTours] = useState([]);
