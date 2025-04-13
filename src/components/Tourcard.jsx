@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-const TourCard = ({ id, name, info, image, price, onRemove }) => {
+const Tourcard = ({ id, name, info, image, price, onRemove }) => {
     const [readMore, setReadMore] = useState(false);
     const safeInfo = info || "No information available";
   
     return (
-      <article className="tour-card">
-        <img src={image} alt={name} className="tour-image" />
+      <article className="Tour-card">
+        <img src={image} alt={name} className="Tour-image" />
         <div className="tour-content">
           <div className="tour-header">
             <h3>{name}</h3>
@@ -33,4 +33,4 @@ const TourCard = ({ id, name, info, image, price, onRemove }) => {
     );
   };
   
-  export default TourCard;
+  export default Tourcard;

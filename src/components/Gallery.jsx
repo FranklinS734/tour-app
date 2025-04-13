@@ -1,18 +1,27 @@
 import React, {useEffect, useState} from "react";   
-import TourCard from "./tourcard"; 
-
+import TourCard from "./TourCard"; 
 
 const Gallery = ({ tours, setTours, onRemove }) => {
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-  
+    const [error, setError] = useState(null); // Store error message
+    
     const fetchTours = async () => {
       try {
-        const res = await fetch("https://course-api.com/react-tours-project");
-        if (!res.ok) throw new Error('Failed to fetch tours');
-        const data = await res.json();
+        setLoading(true);
+        setError(null);
         
-        // Format data similarly to your book list approach
+        // Using AllOrigins proxy as recommended
+        const proxyUrl = 'https://api.allorigins.win/raw?url=';
+        const apiUrl = 'https://course-api.com/react-tours-project';
+        const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+        
+        if (!response.ok) {
+          throw new Error(`Network response was not ok (${response.status})`);
+        }
+        
+        const data = await response.json();
+        
+        // Format data
         const formattedTours = data.map(tour => ({
           id: tour.id,
           name: tour.name,
@@ -22,10 +31,10 @@ const Gallery = ({ tours, setTours, onRemove }) => {
         }));
         
         setTours(formattedTours);
-        setLoading(false);
       } catch (error) {
-        console.error("Error fetching tours:", error);
-        setError(true);
+        console.error("Fetch error:", error);
+        setError(error.message); // Store actual error message
+      } finally {
         setLoading(false);
       }
     };
@@ -35,19 +44,30 @@ const Gallery = ({ tours, setTours, onRemove }) => {
     }, []);
   
     if (loading) {
-      return <h2>Loading tours...</h2>;
+      return (
+        <div className="status-message">
+          <h2>Loading tours...</h2>
+          <div className="loading-spinner"></div>
+        </div>
+      );
     }
   
     if (error) {
-      return <h2>Something went wrong</h2>;
+      return (
+        <div className="status-message error">
+          <h2>Error loading tours</h2>
+          <p>{error}</p>
+          <button onClick={fetchTours}>Retry</button>
+        </div>
+      );
     }
   
     if (tours.length === 0) {
       return (
-        <>
+        <div className="status-message">
           <h2>No tours available</h2>
           <button onClick={fetchTours}>Refresh Tours</button>
-        </>
+        </div>
       );
     }
   
@@ -62,6 +82,6 @@ const Gallery = ({ tours, setTours, onRemove }) => {
         ))}
       </section>
     );
-  };
+};
   
-  export default Gallery;
+export default Gallery;
