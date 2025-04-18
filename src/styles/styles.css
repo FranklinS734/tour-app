@@ -32,6 +32,13 @@
     object-fit: cover;
   }
   
+  .Tour-image {
+    width: 100%; /* Make the image take up the full width of its container */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: cover; /* Ensure the image covers the container without distortion */
+    border-radius: 8px; /* Optional: Add rounded corners */
+  }
+  
   .tour-content {
     padding: 1rem;
   }
